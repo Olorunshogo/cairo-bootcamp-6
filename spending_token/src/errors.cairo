@@ -1,0 +1,13 @@
+// === Error Constants
+
+pub const LIMIT_EXCEEDED: felt252 = 'LIMIT_EXCEEDED';
+pub const SPENDER_LIMIT_EXCEEDED: felt252 = 'SPENDER_LIMIT_EXCEEDED';
+pub const SPENDER_REVOKED: felt252 = 'SPENDER_REVOKED';
+pub const TRANSFERS_FROZEN: felt252 = 'TRANSFERS_FROZEN';
+pub const ZERO_AMOUNT: felt252 = 'ZERO_AMOUNT';
+pub const ZERO_ADDRESS: felt252 = 'ZERO_ADDRESS';
+pub const INVALID_LIMIT: felt252 = 'INVALID_LIMIT';
+pub const ALREADY_FROZEN: felt252 = 'ALREADY_FROZEN';
+pub const NOT_FROZEN: felt252 = 'NOT_FROZEN';
+pub const ALREADY_REVOKED: felt252 = 'ALREADY_REVOKED';
+pub const NOT_REVOKED: felt252 = 'NOT_REVOKED';
