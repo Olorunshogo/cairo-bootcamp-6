@@ -70,15 +70,15 @@ Production deployments should use proxy signer mode rather than in-process priva
 
 ## What Is Included
 
-| Area | Path | Purpose |
-|---|---|---|
-| Cairo contracts | [`contracts/`](./contracts/) | Agent accounts, ERC-8004 registries, session-account primitives, and registry experiments |
-| TypeScript packages | [`packages/`](./packages/) | CLI scaffolder, MCP server, A2A adapter, agent passport helpers, onboarding utilities, prediction scanner, and x402 helpers |
-| Skills | [`skills/`](./skills/) | Public agent skills for Cairo auditing, Starknet wallets, DeFi, identity, testing, deployment, optimization, and SDK usage |
-| Examples | [`examples/`](./examples/) | Reference agent flows covering onboarding, identity, MCP loops, DeFi, carry monitoring, controller calls, and cross-chain demos |
-| Datasets and evals | [`datasets/`](./datasets/), [`evals/`](./evals/) | Cairo audit/evaluation corpora and deterministic benchmark material |
-| Docs | [`docs/`](./docs/) | Architecture, roadmap, deployment status, security runbooks, and launch material |
-| Website | [`website/`](./website/) | Documentation site source |
+| Area                | Path                                             | Purpose                                                                                                                         |
+| ------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| Cairo contracts     | [`contracts/`](./contracts/)                     | Agent accounts, ERC-8004 registries, session-account primitives, and registry experiments                                       |
+| TypeScript packages | [`packages/`](./packages/)                       | CLI scaffolder, MCP server, A2A adapter, agent passport helpers, onboarding utilities, prediction scanner, and x402 helpers     |
+| Skills              | [`skills/`](./skills/)                           | Public agent skills for Cairo auditing, Starknet wallets, DeFi, identity, testing, deployment, optimization, and SDK usage      |
+| Examples            | [`examples/`](./examples/)                       | Reference agent flows covering onboarding, identity, MCP loops, DeFi, carry monitoring, controller calls, and cross-chain demos |
+| Datasets and evals  | [`datasets/`](./datasets/), [`evals/`](./evals/) | Cairo audit/evaluation corpora and deterministic benchmark material                                                             |
+| Docs                | [`docs/`](./docs/)                               | Architecture, roadmap, deployment status, security runbooks, and launch material                                                |
+| Website             | [`website/`](./website/)                         | Documentation site source                                                                                                       |
 
 ## Architecture
 
@@ -102,66 +102,67 @@ The recommended launch profile is self-custodial and no-backend:
 
 ### Contracts
 
-| Component | Path | Description |
-|---|---|---|
-| Agent account | [`contracts/agent-account`](./contracts/agent-account/) | Session keys, spending policy enforcement, ownership controls, and upgrade safety checks |
-| ERC-8004 Cairo | [`contracts/erc8004-cairo`](./contracts/erc8004-cairo/) | Identity, reputation, and validation registries adapted to Starknet |
-| Session account | [`contracts/session-account`](./contracts/session-account/) | Session-key account primitives for policy-centric execution |
-| Huginn registry | [`contracts/huginn-registry`](./contracts/huginn-registry/) | Starknet-native registry primitives used by ecosystem demos |
+| Component       | Path                                                        | Description                                                                              |
+| --------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Agent account   | [`contracts/agent-account`](./contracts/agent-account/)     | Session keys, spending policy enforcement, ownership controls, and upgrade safety checks |
+| ERC-8004 Cairo  | [`contracts/erc8004-cairo`](./contracts/erc8004-cairo/)     | Identity, reputation, and validation registries adapted to Starknet                      |
+| Session account | [`contracts/session-account`](./contracts/session-account/) | Session-key account primitives for policy-centric execution                              |
+| Huginn registry | [`contracts/huginn-registry`](./contracts/huginn-registry/) | Starknet-native registry primitives used by ecosystem demos                              |
 
 Deployment status is tracked in [`docs/DEPLOYMENT_TRUTH_SHEET.md`](./docs/DEPLOYMENT_TRUTH_SHEET.md). Treat that file as canonical for deployed class hashes, owners, and known drift.
 
 ### Packages
 
-| Package | Path | Description |
-|---|---|---|
-| `@starknetfoundation/create-starknet-agent` | [`packages/create-starknet-agent`](./packages/create-starknet-agent/) | CLI scaffolder for Starknet agent projects |
-| `@starknetfoundation/starknet-agentic-mcp-server` | [`packages/starknet-mcp-server`](./packages/starknet-mcp-server/) | MCP tools for Starknet balances, transfers, contract calls, swaps, paymaster flows, and policy-aware operations |
-| `@starknetfoundation/starknet-agentic-a2a` | [`packages/starknet-a2a`](./packages/starknet-a2a/) | A2A protocol adapter for Starknet-native agents |
-| `@starknetfoundation/starknet-agentic-agent-passport` | [`packages/starknet-agent-passport`](./packages/starknet-agent-passport/) | ERC-8004 capability metadata conventions and client helpers |
-| `@starknetfoundation/starknet-agentic-onboarding-utils` | [`packages/starknet-onboarding-utils`](./packages/starknet-onboarding-utils/) | Shared onboarding preflight, deployment, and first-action helpers |
-| `@starknetfoundation/starknet-agentic-prediction-arb-scanner` | [`packages/prediction-arb-scanner`](./packages/prediction-arb-scanner/) | Signals-only prediction market arbitrage scanner output model |
-| `@starknetfoundation/starknet-agentic-x402-starknet` | [`packages/x402-starknet`](./packages/x402-starknet/) | Starknet x402 header encoding and payment-signature helpers |
-| `@starknetfoundation/starknet-agentic-shared` | [`packages/shared`](./packages/shared/) | Private shared utilities used by workspace packages |
+| Package                                                       | Path                                                                          | Description                                                                                                     |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `@starknetfoundation/create-starknet-agent`                   | [`packages/create-starknet-agent`](./packages/create-starknet-agent/)         | CLI scaffolder for Starknet agent projects                                                                      |
+| `@starknetfoundation/starknet-agentic-mcp-server`             | [`packages/starknet-mcp-server`](./packages/starknet-mcp-server/)             | MCP tools for Starknet balances, transfers, contract calls, swaps, paymaster flows, and policy-aware operations |
+| `@starknetfoundation/starknet-agentic-a2a`                    | [`packages/starknet-a2a`](./packages/starknet-a2a/)                           | A2A protocol adapter for Starknet-native agents                                                                 |
+| `@starknetfoundation/starknet-agentic-agent-passport`         | [`packages/starknet-agent-passport`](./packages/starknet-agent-passport/)     | ERC-8004 capability metadata conventions and client helpers                                                     |
+| `@starknetfoundation/starknet-agentic-onboarding-utils`       | [`packages/starknet-onboarding-utils`](./packages/starknet-onboarding-utils/) | Shared onboarding preflight, deployment, and first-action helpers                                               |
+| `@starknetfoundation/starknet-agentic-prediction-arb-scanner` | [`packages/prediction-arb-scanner`](./packages/prediction-arb-scanner/)       | Signals-only prediction market arbitrage scanner output model                                                   |
+| `@starknetfoundation/starknet-agentic-x402-starknet`          | [`packages/x402-starknet`](./packages/x402-starknet/)                         | Starknet x402 header encoding and payment-signature helpers                                                     |
+| `@starknetfoundation/starknet-agentic-shared`                 | [`packages/shared`](./packages/shared/)                                       | Private shared utilities used by workspace packages                                                             |
 
 ### Skills
 
 The public catalog is maintained in [`skills/README.md`](./skills/README.md) and [`skills/manifest.json`](./skills/manifest.json).
 
-| Skill | Best for |
-|---|---|
-| [`cairo-auditor`](./skills/cairo-auditor/) | Pre-merge Cairo security review with deterministic preflight and false-positive gating |
-| [`cairo-contract-authoring`](./skills/cairo-contract-authoring/) | Workflow-first Cairo contract authoring and audit handoff |
-| [`cairo-testing`](./skills/cairo-testing/) | `snforge` testing patterns, cheatcodes, fuzzing, and fork testing |
-| [`cairo-optimization`](./skills/cairo-optimization/) | Profile-driven Cairo optimization after correctness tests pass |
-| [`starknet-wallet`](./skills/starknet-wallet/) | Wallet operations, transfers, session keys, and paymaster flows |
-| [`starknet-defi`](./skills/starknet-defi/) | Swaps, DCA, staking, lending, and AVNU routing patterns |
-| [`starknet-identity`](./skills/starknet-identity/) | ERC-8004 identity, reputation, and validation flows |
-| [`snip-36`](./skills/snip-36/) | Virtual block proving and off-chain Starknet proof verification workflows |
-| [`starknet-js`](./skills/starknet-js/) | Starknet.js v9 application, account, transaction, and paymaster guidance |
+| Skill                                                            | Best for                                                                               |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [`cairo-auditor`](./skills/cairo-auditor/)                       | Pre-merge Cairo security review with deterministic preflight and false-positive gating |
+| [`cairo-contract-authoring`](./skills/cairo-contract-authoring/) | Workflow-first Cairo contract authoring and audit handoff                              |
+| [`cairo-testing`](./skills/cairo-testing/)                       | `snforge` testing patterns, cheatcodes, fuzzing, and fork testing                      |
+| [`cairo-optimization`](./skills/cairo-optimization/)             | Profile-driven Cairo optimization after correctness tests pass                         |
+| [`starknet-wallet`](./skills/starknet-wallet/)                   | Wallet operations, transfers, session keys, and paymaster flows                        |
+| [`starknet-defi`](./skills/starknet-defi/)                       | Swaps, DCA, staking, lending, and AVNU routing patterns                                |
+| [`starknet-identity`](./skills/starknet-identity/)               | ERC-8004 identity, reputation, and validation flows                                    |
+| [`snip-36`](./skills/snip-36/)                                   | Virtual block proving and off-chain Starknet proof verification workflows              |
+| [`starknet-js`](./skills/starknet-js/)                           | Starknet.js v9 application, account, transaction, and paymaster guidance               |
 
 ## Examples
 
-| Example | What it proves |
-|---|---|
-| [`examples/hello-agent`](./examples/hello-agent/) | Minimal RPC, state read, and transaction path |
-| [`examples/onboard-agent`](./examples/onboard-agent/) | Agent account deployment, identity registration, and receipt artifacts |
-| [`examples/full-stack-swarm`](./examples/full-stack-swarm/) | Autonomous loop with MCP tools, signer boundary, AVNU gasless flow, and ERC-8004 |
-| [`examples/secure-defi-demo`](./examples/secure-defi-demo/) | Security evidence, session-key policy rejection, and Vesu flow artifact |
-| [`examples/defi-agent`](./examples/defi-agent/) | DeFi strategy agent with routing and risk controls |
-| [`examples/carry-agent`](./examples/carry-agent/) | Deterministic carry monitor and decision artifacts |
-| [`examples/crosschain-demo`](./examples/crosschain-demo/) | Cross-chain ERC-8004 demo across Base Sepolia and Starknet |
-| [`examples/erc8004-validation-demo`](./examples/erc8004-validation-demo/) | Validation request/response and summary extraction |
-| [`examples/controller-calls`](./examples/controller-calls/) | Non-custodial unsigned-call flow with external signer execution |
-| [`examples/starkzap-onboard-transfer`](./examples/starkzap-onboard-transfer/) | Starkzap gasless onboarding and STRK transfer flow |
+| Example                                                                       | What it proves                                                                              |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [`examples/hello-agent`](./examples/hello-agent/)                             | Minimal RPC, state read, and transaction path                                               |
+| [`examples/onboard-agent`](./examples/onboard-agent/)                         | Agent account deployment, identity registration, and receipt artifacts                      |
+| [`examples/full-stack-swarm`](./examples/full-stack-swarm/)                   | Autonomous loop with MCP tools, signer boundary, AVNU gasless flow, and ERC-8004            |
+| [`examples/secure-defi-demo`](./examples/secure-defi-demo/)                   | Security evidence, session-key policy rejection, and Vesu flow artifact                     |
+| [`examples/defi-agent`](./examples/defi-agent/)                               | DeFi strategy agent with routing and risk controls                                          |
+| [`examples/carry-agent`](./examples/carry-agent/)                             | Deterministic carry monitor and decision artifacts                                          |
+| [`examples/crosschain-demo`](./examples/crosschain-demo/)                     | Cross-chain ERC-8004 demo across Base Sepolia and Starknet                                  |
+| [`examples/erc8004-validation-demo`](./examples/erc8004-validation-demo/)     | Validation request/response and summary extraction                                          |
+| [`examples/controller-calls`](./examples/controller-calls/)                   | Non-custodial unsigned-call flow with external signer execution                             |
+| [`examples/starkzap-onboard-transfer`](./examples/starkzap-onboard-transfer/) | Starkzap gasless onboarding and STRK transfer flow                                          |
+| [`examples/autonomous-transfer-agent`](./examples/autonomous-transfer-agent/) | Composable MCP transfer agent: balance fetch, conditional transfer, alerts, hooks, receipts |
 
 ## Requirements
 
-| Use case | Requirements |
-|---|---|
-| CLI scaffolder | Node.js `>=18.0.0` |
-| Source checkout | Node.js `>=20.9.0`, `pnpm` `>=10.28.2` |
-| Cairo contracts | Scarb `>=2.14.0`, Starknet Foundry `snforge` `>=0.54.1` |
+| Use case           | Requirements                                                |
+| ------------------ | ----------------------------------------------------------- |
+| CLI scaffolder     | Node.js `>=18.0.0`                                          |
+| Source checkout    | Node.js `>=20.9.0`, `pnpm` `>=10.28.2`                      |
+| Cairo contracts    | Scarb `>=2.14.0`, Starknet Foundry `snforge` `>=0.54.1`     |
 | Networked examples | Starknet RPC URL, account address, and signer configuration |
 
 Copy [`./.env.example`](./.env.example) where an example or package asks for local environment variables. Never commit private keys or funded credentials.
@@ -228,16 +229,16 @@ gh attestation verify <artifact-file> --repo keep-starknet-strange/starknet-agen
 
 ## Documentation
 
-| Topic | Link |
-|---|---|
-| Getting started | [`docs/GETTING_STARTED.md`](./docs/GETTING_STARTED.md) |
-| Technical specification | [`docs/SPECIFICATION.md`](./docs/SPECIFICATION.md) |
-| Roadmap | [`docs/ROADMAP.md`](./docs/ROADMAP.md) |
-| ERC-8004 parity | [`docs/ERC8004-PARITY.md`](./docs/ERC8004-PARITY.md) |
-| Cairo skills migration | [`docs/CAIRO_SKILLS_MIGRATION.md`](./docs/CAIRO_SKILLS_MIGRATION.md) |
-| E2E testing | [`docs/E2E_TESTING_GUIDE.md`](./docs/E2E_TESTING_GUIDE.md) |
-| Troubleshooting | [`docs/TROUBLESHOOTING.md`](./docs/TROUBLESHOOTING.md) |
-| Good first issues | [`docs/GOOD_FIRST_ISSUES.md`](./docs/GOOD_FIRST_ISSUES.md) |
+| Topic                   | Link                                                                 |
+| ----------------------- | -------------------------------------------------------------------- |
+| Getting started         | [`docs/GETTING_STARTED.md`](./docs/GETTING_STARTED.md)               |
+| Technical specification | [`docs/SPECIFICATION.md`](./docs/SPECIFICATION.md)                   |
+| Roadmap                 | [`docs/ROADMAP.md`](./docs/ROADMAP.md)                               |
+| ERC-8004 parity         | [`docs/ERC8004-PARITY.md`](./docs/ERC8004-PARITY.md)                 |
+| Cairo skills migration  | [`docs/CAIRO_SKILLS_MIGRATION.md`](./docs/CAIRO_SKILLS_MIGRATION.md) |
+| E2E testing             | [`docs/E2E_TESTING_GUIDE.md`](./docs/E2E_TESTING_GUIDE.md)           |
+| Troubleshooting         | [`docs/TROUBLESHOOTING.md`](./docs/TROUBLESHOOTING.md)               |
+| Good first issues       | [`docs/GOOD_FIRST_ISSUES.md`](./docs/GOOD_FIRST_ISSUES.md)           |
 
 ## Repository Layout
 

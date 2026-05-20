@@ -1,0 +1,47 @@
+{
+  "profiles": {
+    "strk-sepolia": {
+      "network": "sepolia",
+      "token": "STRK",
+      "minBalanceForTransfer": "1",
+      "lowBalanceAlertThreshold": "5",
+      "reserveBalance": "0.5",
+      "transfer": {
+        "enabled": false,
+        "recipient": "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "amount": "0.1",
+        "gasfree": false
+      },
+      "spendingToken": {
+        "address": "",
+        "symbol": "MTK"
+      },
+      "postTransferHook": {
+        "type": "none"
+      }
+    },
+    "mtk-spending-token": {
+      "network": "sepolia",
+      "token": "MTK",
+      "minBalanceForTransfer": "100",
+      "lowBalanceAlertThreshold": "50",
+      "reserveBalance": "10",
+      "transfer": {
+        "enabled": false,
+        "recipient": "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "amount": "5",
+        "gasfree": false
+      },
+      "spendingToken": {
+        "address": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "symbol": "MTK"
+      },
+      "postTransferHook": {
+        "type": "mcp_call",
+        "entrypoint": "get_transfer_limit",
+        "calldata": []
+      }
+    }
+  },
+  "activeProfile": "strk-sepolia"
+}
