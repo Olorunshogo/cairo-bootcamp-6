@@ -49,23 +49,47 @@ Default in constructor:
 Hooks are used in `token.cairo` here:
 
 - `impl ERC20HooksImpl of ERC20Component::ERC20HooksTrait<ContractState>`
-- specifically in `before_update(...)`
+- specifically in `before_update(...)` and `after_update(...)`
 
-This hook runs before ERC-20 balance state changes for transfer-like updates.
+The hook pair wraps every ERC-20 balance/supply update.
 
-### `before_update` flow
+### Hook lifecycle (exact order)
 
-1. If mint (`from == 0`) or burn (`recipient == 0`), return early.
-2. Reject when frozen (`TRANSFERS_FROZEN`).
-3. Reject zero amount (`ZERO_AMOUNT`).
-4. Enforce global cap (`LIMIT_EXCEEDED`).
-5. If delegated spend (`caller != from`):
-   - enforce revoke block (`SPENDER_REVOKED`)
-   - enforce optional spender cap (`SPENDER_LIMIT_EXCEEDED`)
+For ERC-20 state-changing actions (`transfer`, `transfer_from`, `mint`, `burn`), the execution order is:
 
-This is the main policy engine for spending control.
+1. External/internal ERC-20 function is called.
+2. `before_update(ref self, from, recipient, amount)` runs first.
+3. If any assertion fails in `before_update`, the whole transaction reverts and no state is changed.
+4. If checks pass, ERC-20 mutates balances/supply.
+5. `after_update(ref self, from, recipient, amount)` runs last.
 
-`after_update(...)` exists but is empty right now.
+So yes: policy checks happen before token amount mutation.
+
+### `before_update` breakdown in this contract
+
+1. Build helper values:
+- fetch contract state (`self.get_contract()`)
+- define zero address (`Zero::zero()`)
+
+2. Mint/burn bypass:
+- if `from == zero` (mint) OR `recipient == zero` (burn), return immediately
+- this intentionally skips transfer policy checks for mint and burn flows
+
+3. Global checks for real transfers:
+- reject if token is frozen (`TRANSFERS_FROZEN`)
+- reject `amount == 0` (`ZERO_AMOUNT`)
+- enforce `amount <= max_limit` (`LIMIT_EXCEEDED`)
+
+4. Delegated-spender checks (`transfer_from` path):
+- if `caller != from`, caller is acting as spender
+- reject if spender is revoked (`SPENDER_REVOKED`)
+- if spender has custom limit (`spender_limit > 0`), enforce `amount <= spender_limit` (`SPENDER_LIMIT_EXCEEDED`)
+
+### What `after_update` does now
+
+`after_update(...)` is currently empty, so it performs no extra post-transfer action.
+
+We can later use it for post-state side effects (for example accounting counters, telemetry events, or external policy integrations).
 
 ---
 
@@ -99,3 +123,44 @@ Each has validation checks (zero address, zero amount, state checks, etc.) and e
 - Centralizes policy checks in one hook.
 - Supports both broad emergency control (freeze) and targeted control (revoke per spender).
 - Keeps ownership/admin responsibility explicit via constructor `admin`.
+
+SRC5 (Introspection)
+- Purpose: exposes a standard introspection API so other contracts/tools can discover supported token interfaces and metadata.
+- Effect: makes the token self-describing and interoperable with tooling that queries SRC5 capabilities.
+
+Before-update hook (line-by-line, concise):
+- Signature: called before any ERC20 update; params: `self`, `from`, `recipient`, `amount`.
+- `let contract_state = self.get_contract();`: access top-level storage.
+- `let zero: ContractAddress = Zero::zero();`: canonical zero address (mint/burn detection).
+- `if from == zero || recipient == zero { return; }`: skip checks for mint/burn.
+- `assert(!contract_state.frozen.read(), TRANSFERS_FROZEN);`: block when frozen.
+- `assert(amount > 0, ZERO_AMOUNT);`: disallow zero transfers.
+- `let caller = get_caller_address();`: caller may be spender in `transfer_from`.
+- `assert(amount <= contract_state.max_limit.read(), LIMIT_EXCEEDED);`: enforce global per-transfer cap.
+- `if caller != from { ... }`: delegated-spend checks:
+  - `assert(!revoked_spenders.read(caller), SPENDER_REVOKED);`
+  - `let spender_limit = spender_limits.read(caller); if spender_limit > 0 { assert(amount <= spender_limit, SPENDER_LIMIT_EXCEEDED); }`
+
+Why use components
+- Reuse: audited implementations (ERC20, Ownable, SRC5).
+- Isolation: each component owns its storage (avoid collisions).
+- Composition: embed/override behavior via mixins/hooks (e.g., `before_update`).
+- ABI/events: components embed ABIs and forward events into contract `Event`.
+
+What `component!(...)` does
+- `path`: component type (e.g., `ERC20Component`).
+- `storage`: storage field in `#[storage]` (e.g., `erc20`).
+- `event`: event variant to flatten component events into contract `Event`.
+- Result: wires storage, methods, and event routing so you can call `self.erc20.*`.
+
+`#[abi(embed_v0)] impl ...MixinImpl = ...`
+- Embeds the component’s external ABI (mixin functions) into the contract ABI.
+- Makes component-provided external functions callable and visible in the contract ABI.
+
+`impl ...InternalImpl = ...Component::InternalImpl<ContractState>`
+- Instantiates the component’s internal trait implementation for this contract’s `ContractState`.
+- Binds generic component internals to our concrete storage so hooks and helpers access `self.get_contract()`.
+
+One-line justification (pasteable):
+This contract uses OpenZeppelin Cairo components (ERC20, Ownable, SRC5) to reuse audited logic, isolate storage, and expose standard ABIs; `component!` wires storage/events, `#[abi(embed_v0)]` embeds ABIs, and `impl ...InternalImpl = ...<ContractState>` binds internals to our storage so hooks (like `before_update`) work.
+

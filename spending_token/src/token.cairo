@@ -1,5 +1,6 @@
 // === Imports
-use core::num::traits::Zero;
+// use core::num::traits::Zero;
+use core::num::traits:;Zero;
 use openzeppelin::access::ownable::OwnableComponent;
 use openzeppelin::introspection::src5::SRC5Component;
 use openzeppelin::token::erc20::{DefaultConfig, ERC20Component};
@@ -58,14 +59,14 @@ mod SpendingToken {
         TokensBurned: events::TokensBurned,
     }
 
-    // === Embedded ABIs
+    // === Embedded ABIs: Public/External Interface + ABI for Component Interactions
     #[abi(embed_v0)]
     impl ERC20MixinImpl = ERC20Component::ERC20MixinImpl<ContractState>;
 
     #[abi(embed_v0)]
     impl OwnableMixinImpl = OwnableComponent::OwnableMixinImpl<ContractState>;
 
-    // === Internal Component Traits
+    // === Internal Component Traits (used for cross-component calls and hooks)
     impl ERC20InternalImpl = ERC20Component::InternalImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
     impl SRC5InternalImpl = SRC5Component::InternalImpl<ContractState>;
@@ -124,9 +125,7 @@ mod SpendingToken {
     ) {
         self.erc20.initializer("MosesToken", "MTK");
         self.ownable.initializer(admin);
-
         self.max_limit.write(10_000_u256);
-
         self.erc20.mint(admin, initial_supply);
     }
 
